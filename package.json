@@ -1,6 +1,8 @@
 {
-  "name": "vue3-ts-template",
+  "name": "vue3-ts-tsx-template",
   "version": "0.1.0",
+  "description": "A vue3.0 admin template with tsx & element-plus",
+  "author": "coboy",
   "private": true,
   "scripts": {
     "dev": "npm run serve",
