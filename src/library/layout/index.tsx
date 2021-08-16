@@ -2,6 +2,7 @@ import { defineComponent } from 'vue'
 import AppMain from './components/AppMain'
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar/index'
+import TagsView from './components/tags_view/Index'
 import './index.less'
 
 export default defineComponent({
@@ -19,7 +20,8 @@ export default defineComponent({
             <sidebar class="sidebar-container" />
             <div class="main-container">
               <div class="fixed-header">
-                <navbar />
+                <Navbar />
+                <TagsView />
               </div>
               <app-main />
             </div>
