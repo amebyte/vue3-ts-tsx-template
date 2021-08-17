@@ -39,14 +39,14 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
         component: () =>
           import(/* webpackChunkName: "goodsLive" */ '@/views/Test2'),
         name: 'goodsLive',
-        meta: { title: '直播列表', icon: 'dashboard', affix: true },
+        meta: { title: '直播列表', icon: 'dashboard', affix: false },
       },
       {
         path: 'goods-list',
         component: () =>
           import(/* webpackChunkName: "goodsList" */ '@/views/Test'),
         name: 'goodsList',
-        meta: { title: '商品列表', icon: 'dashboard', affix: true },
+        meta: { title: '商品列表', icon: 'dashboard', affix: false },
       },
     ],
   },

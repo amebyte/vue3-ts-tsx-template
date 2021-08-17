@@ -25,7 +25,6 @@ export default defineComponent({
     const router = useRouter()
     const instance = getCurrentInstance()
     const currentRoute = useRoute()
-    console.log('currentRoute', currentRoute)
 
     const scrollPaneRef = ref(null)
     const { proxy } = instance as any
@@ -125,6 +124,7 @@ export default defineComponent({
     })
 
     const routes = computed(() => store.state.permission.routes)
+    console.log('routes', routes)
 
     const filterAffixTags = (routes: RouteRecordRaw[], basePath = '/') => {
       let tags: TagView[] = []
@@ -170,6 +170,47 @@ export default defineComponent({
       return false
     }
 
+    const moveToCurrentTag = () => {
+      const tags = instance?.refs.tag as any[]
+      nextTick(() => {
+        if (tags === null || tags === undefined || !Array.isArray(tags)) {
+          return
+        }
+        for (const tag of tags) {
+          if ((tag.to as TagView).path === currentRoute.path) {
+            ;(scrollPaneRef.value as any).moveToCurrentTag(tag)
+            if ((tag.to as TagView).fullPath !== currentRoute.fullPath) {
+              store.dispatch(
+                TagsActionTypes.ACTION_UPDATE_VISITED_VIEW,
+                currentRoute,
+              )
+            }
+          }
+        }
+      })
+    }
+
+    watch(
+      () => currentRoute.name,
+      () => {
+        if (currentRoute.name !== 'Login') {
+          addTags()
+          moveToCurrentTag()
+        }
+      },
+    )
+
+    watch(
+      () => state.visible,
+      (value) => {
+        if (value) {
+          document.body.addEventListener('click', state.closeMenu)
+        } else {
+          document.body.removeEventListener('click', state.closeMenu)
+        }
+      },
+    )
+
     onBeforeMount(() => {
       initTags()
       addTags()
@@ -207,7 +248,7 @@ export default defineComponent({
                     tag="span"
                   >
                     {tag.meta.title}
-                    {!isAffixFun ? <span class="el-icon-close" /> : ''}
+                    {!isAffixFun(tag) ? <span class="el-icon-close" /> : ''}
                   </router-link>
                 )
               })}
